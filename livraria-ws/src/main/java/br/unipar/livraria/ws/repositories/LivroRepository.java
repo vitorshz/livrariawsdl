@@ -56,7 +56,13 @@ public class LivroRepository {
     }
     
     public ArrayList<Livro> findLivro(String nome){
-        return resultado;
+        ArrayList<Livro> listaResultado = new ArrayList<>();
+        
+        for(Livro livro: resultado){
+            if(livro.getNome().toUpperCase().contains(nome.toUpperCase())){
+               listaResultado.add(livro);
+            }
+        }return null;
     }
     
     public ArrayList<Livro> listAll(){
@@ -64,8 +70,12 @@ public class LivroRepository {
     }
     
     public Livro findById(int id){
-        return resultado.get(0);
+        for(Livro livro: resultado){
+            if(livro.getId()== id){
+               return livro; 
+            }
+        }return null;
     }
-    
+   
     
 }

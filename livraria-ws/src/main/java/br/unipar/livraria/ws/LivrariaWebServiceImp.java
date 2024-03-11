@@ -11,7 +11,8 @@ public class LivrariaWebServiceImp implements LivrariaWebService{
 
     @Override
     public ArrayList<Livro> findLivro(String nome) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        LivrariaService livrariaService = new LivrariaService();
+        return livrariaService.findLivro(nome); 
     }
 
     @Override
@@ -22,6 +23,12 @@ public class LivrariaWebServiceImp implements LivrariaWebService{
 
     @Override
     public Livro findById(int id) {
+        LivrariaService livrariaService = new LivrariaService();
+        return livrariaService.findById(id);    
+    }
+
+    @Override
+    public String logar(String login, String senha) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     

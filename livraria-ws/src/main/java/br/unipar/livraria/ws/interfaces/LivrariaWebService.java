@@ -2,6 +2,7 @@ package br.unipar.livraria.ws.interfaces;
 
 import br.unipar.livraria.ws.models.Livro;
 import jakarta.jws.WebMethod;
+import jakarta.jws.WebParam;
 import jakarta.jws.WebService;
 import java.util.ArrayList;
 
@@ -19,6 +20,8 @@ public interface LivrariaWebService {
     @WebMethod
     Livro findById(int id);
     
-    
+    @WebMethod
+    String logar(@WebParam(header = true)String login,
+                @WebParam(header = true)String senha);
     
 }

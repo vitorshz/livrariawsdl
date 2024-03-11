@@ -11,4 +11,14 @@ public class LivrariaService {
         return livroRepository.listAll();
     }
     
+    public Livro findById(int id){
+        LivroRepository livroRepository = new LivroRepository();
+        return livroRepository.findById(id);
+    }
+    public ArrayList<Livro> findLivro(String nome){
+        LivroRepository livroRepository = new LivroRepository();
+        return livroRepository.findLivro(nome);
+    }
+    
+    
 }
