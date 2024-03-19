@@ -1,5 +1,7 @@
 package br.unipar.livraria.ws.interfaces;
 
+import br.unipar.livraria.ws.exceptions.AutorizacaoException;
+import br.unipar.livraria.ws.exceptions.ValidacaoException;
 import br.unipar.livraria.ws.models.Livro;
 import jakarta.jws.WebMethod;
 import jakarta.jws.WebParam;
@@ -26,7 +28,8 @@ public interface LivrariaWebService {
                 @WebParam(header = true)String senha);
     
     @WebMethod
-    Livro inserir(Livro livro) throws SQLException;
+    Livro inserir(Livro livro) throws AutorizacaoException,
+            ValidacaoException;
     
     @WebMethod
     Livro atualizar(Livro livro) throws SQLException;

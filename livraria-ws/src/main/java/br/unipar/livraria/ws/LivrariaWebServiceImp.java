@@ -1,5 +1,7 @@
 package br.unipar.livraria.ws;
 
+import br.unipar.livraria.ws.exceptions.AutorizacaoException;
+import br.unipar.livraria.ws.exceptions.ValidacaoException;
 import br.unipar.livraria.ws.interfaces.LivrariaWebService;
 import br.unipar.livraria.ws.services.LivroService;
 import br.unipar.livraria.ws.models.Livro;
@@ -34,7 +36,7 @@ public class LivrariaWebServiceImp implements LivrariaWebService{
     }
     
     @Override
-    public Livro inserir(Livro livro) throws SQLException {
+    public Livro inserir(Livro livro) throws AutorizacaoException, ValidacaoException {
         LivroService livrariaService = new LivroService();
         return livrariaService.insert(livro);
     }
