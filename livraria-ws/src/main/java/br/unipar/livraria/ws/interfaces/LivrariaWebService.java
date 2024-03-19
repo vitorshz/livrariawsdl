@@ -4,6 +4,7 @@ import br.unipar.livraria.ws.models.Livro;
 import jakarta.jws.WebMethod;
 import jakarta.jws.WebParam;
 import jakarta.jws.WebService;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 
@@ -12,16 +13,27 @@ import java.util.ArrayList;
 public interface LivrariaWebService {
     
     @WebMethod
-    ArrayList<Livro> findLivro(String nome);
+    ArrayList<Livro> findLivro(String nome) throws SQLException;
     
     @WebMethod
-    ArrayList<Livro> listAll();
+    ArrayList<Livro> listAll() throws SQLException;
     
     @WebMethod
-    Livro findById(int id);
+    Livro findById(int id) throws SQLException;
     
     @WebMethod
     String logar(@WebParam(header = true)String login,
                 @WebParam(header = true)String senha);
+    
+    @WebMethod
+    Livro inserir(Livro livro) throws SQLException;
+    
+    @WebMethod
+    Livro atualizar(Livro livro) throws SQLException;
+    
+    @WebMethod 
+    void deletar(int id)throws SQLException;
+    
+    
     
 }

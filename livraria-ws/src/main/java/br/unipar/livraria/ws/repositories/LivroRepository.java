@@ -4,78 +4,127 @@
  */
 package br.unipar.livraria.ws.repositories;
 
+import br.unipar.livraria.ws.infraestructure.ConnectionFactory;
 import br.unipar.livraria.ws.models.Livro;
 import br.unipar.livraria.ws.models.Pessoa;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 
 public class LivroRepository {
     
-    ArrayList<Livro> resultado = new ArrayList<>();
-    
     public LivroRepository(){
-        Pessoa autor = new Pessoa();
-        autor.setId(1);
-        autor.setNome("Cleito");
-        
-        Pessoa editora = new Pessoa();
-        editora.setId(1);
-        editora.setNome("Shimizu");
-        
-        Livro a = new Livro();      
-        
-        a.setId(1);
-        a.setNome("Harry poter");
-        a.setNrPaginas(240);
-        a.setDtLancto(new Date());
-        a.setAutor(autor);
-        a.setEditora(editora);
-        
-        Livro b = new Livro();      
-        
-        b.setId(2);
-        b.setNome("Harry poter");
-        b.setNrPaginas(240);
-        b.setDtLancto(new Date());
-        b.setAutor(autor);
-        b.setEditora(editora);
-        
-        Livro c = new Livro();      
-        
-        c.setId(3);
-        c.setNome("Harry poter");
-        c.setNrPaginas(240);
-        c.setDtLancto(new Date());
-        c.setAutor(autor);
-        c.setEditora(editora);
-        
-        resultado.add(a);
-        resultado.add(b);
-        resultado.add(c);
         
     }
     
     public ArrayList<Livro> findLivro(String nome){
-        ArrayList<Livro> listaResultado = new ArrayList<>();
-        
-        for(Livro livro: resultado){
-            if(livro.getNome().toUpperCase().contains(nome.toUpperCase())){
-               listaResultado.add(livro);
-            }
-        }return null;
+        return null;
     }
     
-    public ArrayList<Livro> listAll(){
-        return resultado;
+    public ArrayList<Livro> listAll() throws SQLException{
+        return null;
     }
     
     public Livro findById(int id){
-        for(Livro livro: resultado){
-            if(livro.getId()== id){
-               return livro; 
-            }
-        }return null;
+        return null;
     }
    
+    public Livro insert(Livro livro) throws SQLException {
+        
+        String query = 
+                "INSERT INTO LIVRO (NOME, DT_LANCTO, NR_PAGINAS, "
+                + "ID_EDITORA, ID_AUTOR) "
+                + "VALUES(?, ?, ?, ?, ?);";
+        Connection conn = null;
+        PreparedStatement ps =null;
+        ResultSet rs = null;
+        
+        try{
+            conn = new ConnectionFactory().getConnection();
+            
+            ps = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, livro.getNome());
+            ps.setDate(2, new java.sql.Date(livro.getDtLancto().getTime()));
+            ps.setInt(3, livro.getNrPaginas());
+            ps.setInt(4, livro.getEditora().getId());
+            ps.setInt(5, livro.getAutor().getId());
+            ps.executeUpdate();
+            
+            rs = ps.getGeneratedKeys();
+            
+            rs.next();
+            livro.setId(rs.getInt(1));
+            
+            
+            
+        }  finally{
+            if (rs != null)
+                rs.close();
+            if(ps != null)
+                ps.close();
+            if(conn != null)
+                conn.close();
+            
+        } 
+        
+        return livro;
+    }
+
+    public Livro update(Livro livro) throws SQLException {
+            String query = "UPDATE LIVRO "
+                     + "SET NOME = ?, "
+                     + "    DT_LANCTO = ?, "
+                     + "    NR_PAGINAS = ?, "
+                     + "    ID_EDITORA = ?, "
+                     + "    ID_AUTOR = ? "
+                     + "WHERE ID = ?";
+            
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        
+        try {
+            conn = new ConnectionFactory().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setString(1, livro.getNome());
+            ps.setDate(2, new java.sql.Date(livro.getDtLancto().getTime()));
+            ps.setInt(3, livro.getNrPaginas());
+            ps.setInt(4, livro.getEditora().getId());
+            ps.setInt(5, livro.getAutor().getId());
+            ps.setInt(6, livro.getId());
+            
+            ps.executeUpdate();
+        } finally {
+            if (ps != null)
+                ps.close();
+            if (conn != null)
+                conn.close();
+        }
+        
+        return livro;
+    }
     
+    public void delete(int livroId) throws SQLException {
+        String query = "DELETE FROM LIVRO WHERE ID = ?";
+        
+        Connection conn = null;
+        PreparedStatement ps = null;
+        
+        try {
+            conn = new ConnectionFactory().getConnection();
+            ps = conn.prepareStatement(query);
+            ps.setInt(1, livroId);
+            
+            ps.executeUpdate();
+        } finally {
+            if (ps != null)
+                ps.close();
+            if (conn != null)
+                conn.close();
+        }
+    }
 }

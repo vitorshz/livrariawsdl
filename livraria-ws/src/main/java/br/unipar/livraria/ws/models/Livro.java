@@ -6,10 +6,7 @@ package br.unipar.livraria.ws.models;
 
 import java.util.Date;
 
-/**
- *
- * @author lucia
- */
+
 public class Livro {
     private int id;
     private String nome;
